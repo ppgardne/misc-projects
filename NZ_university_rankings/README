@@ -1,0 +1,6 @@
+
+The data in "NZ_university_rankings.txt" is derived from:
+http://en.wikipedia.org/w/index.php?title=List_of_universities_in_New_Zealand&oldid=487948412
+The H-indices hard-coded in "NZ_university_rankings.r" were computed
+using Scopus on the date given in the file.
+
