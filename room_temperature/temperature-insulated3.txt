@@ -1,0 +1,3 @@
+inside_temp	outside_temp	date-time
+10.2	4.8	2012-06-19-0755
+12.6	7.0	2012-06-19-2339

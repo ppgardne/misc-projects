@@ -1,0 +1,50 @@
+#more ~/docs/impact_factors/2010_data_jcr_recs | perl -lane 's/ /_/g; @F=split(/;/, $_); print "$F[0]\t$F[3]\t$F[2]\t$F[4]"' | grep -v ^"JCR" | sort -k2nr > ~/docs/impact_factors/2010_data_jcr_recs.dat
+
+rin<-read.table("2010_data_jcr_recs.dat", header = T, sep = "\t")
+
+greens<-0
+
+col<-c(1:length(rin$Impact_Factor))
+for(i in seq(1,length(rin$Impact_Factor))){
+      if(rin$Impact_Factor[i]>20){
+	col[i]<-'red';
+      }	else 
+      if(rin$Impact_Factor[i]>9){
+	col[i]<-'orange';
+      }	else 
+      if(rin$Impact_Factor[i]>4.8){
+	col[i]<-'blue';
+      }	else 
+      if(rin$Impact_Factor[i]==4.411){
+	col[i]<-'white';
+      }	else
+      if(rin$Impact_Factor[i]>0){
+	col[i]<-'black';
+      }	   
+      else {
+	col[i]<-'green';
+	greens<-c(greens,i)
+      }	   
+
+}
+
+len<-length(rin$Abbreviated_Journal_Title)
+pdf(file="impactfactors.pdf",  width=15, height=15)
+op<-par(mfrow=c(1,1),cex=1.3,cex.axis=0.8,cex.lab=1.2,cex.main=1.5,las=2 ,pin=c(12.5,10))
+barplot(as.vector(rin$Impact_Factor), ylim=c(0,max(rin$Impact_Factor)),col=col,ylab="2010 impact factor", main="2010 Impact Factors")#,axes=F)
+#axis(2, (7-1)*(1:7), 5*(1:7),las=3, cex=0.02 )
+at<-1.2*(len-1)*(0:(len-1))/(len-1)+0.65
+axis(1, at=at , labels=as.vector(rin$Abbreviated_Journal_Title),las=3)
+
+for(i in seq(2,length(greens))){
+      text(at[greens[i]],0.25, labels=as.vector(rin$Abbreviated_Journal_Title[greens[i]]), srt=90, pos=4, cex=0.8)	
+}
+legend("topright",c("Top tier", "Nice", "Acceptable", "Accepts anything", "Avoid", "NEVER"),fill=c("red","orange","blue","white","black","green"),cex=1.5)
+dev.off()
+
+
+
+
+
+
+

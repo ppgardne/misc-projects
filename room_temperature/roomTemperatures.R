@@ -1,14 +1,15 @@
 #cd $HOME/docs/house-hunt_2011
 #R CMD BATCH --no-save roomTemperatures.R
 
-temps      <-read.table("temperature2.txt", sep = "\t",row.names=3, header=T)
-tempsIns   <-read.table("temperature-insulated2.txt", sep = "\t",row.names=3, header=T)
-tempsInsGlz<-read.table("temperature-insulated-glazed2.txt", sep = "\t",row.names=3, header=T)
+temps         <-read.table("temperature2.txt", sep = "\t",row.names=3, header=T)
+tempsIns      <-read.table("temperature-insulated2.txt", sep = "\t",row.names=3, header=T)
+tempsInsGlz   <-read.table("temperature-insulated-glazed2.txt", sep = "\t",row.names=3, header=T)
+tempsInsGlzHtr<-read.table("temperature-insulated-glazed-heater.txt", sep = "\t",row.names=3, header=T)
 
 
 pdf(file="roomTemperatures.pdf",  width=10, height=9)
 op<-par(mfrow=c(1,1),cex=1.6,las=2,pin=c(7.5,6.0))
-limits<-c(-2,20)
+limits<-c(-2,23)
 xlab = expression(paste("Outdoor temp (", degree, C, ")"))
 ylab = expression(paste("Indoor temp (", degree, C, ")"))
 plot(temps$outside_temp, temps$inside_temp,type="p",xlab=xlab,ylab=ylab,xlim=limits,ylim=limits,pch='x',main="Temperatures in the Gardner love-nest")
@@ -20,19 +21,27 @@ y<-temps$inside_temp
 nlmod <- nls(y ~  A / ( 1 + exp(C * x)), start=list(A=-10, C=0.5))
 lines(x, predict(nlmod),lty=2)
 
-points(tempsIns$outside_temp, tempsIns$inside_temp,col="red",pch='x')
+points(tempsIns$outside_temp, tempsIns$inside_temp,col="blue",pch='x')
 lm.TIns<-lm(tempsIns$inside_temp ~ tempsIns$outside_temp)
-abline(lm.TIns,col="red")
+abline(lm.TIns,col="blue")
 
 x<-tempsIns$outside_temp
 y<-tempsIns$inside_temp
 nlmod <- nls(y ~  A / ( 1 + exp(C * x)), start=list(A=21, C=1))
-lines(x, predict(nlmod),lty=2,col="red")
+lines(x, predict(nlmod),lty=2,col="blue")
 
 points(tempsInsGlz$outside_temp, tempsInsGlz$inside_temp,col="orange",pch='x')
 lm.TInsGlz<-lm(tempsInsGlz$inside_temp ~ tempsInsGlz$outside_temp)
 abline(lm.TInsGlz,col="orange")
 
+##
+
+points(tempsInsGlzHtr$outside_temp, tempsInsGlzHtr$inside_temp,col="red",pch='x')
+lm.TInsGlzHtr<-lm(tempsInsGlzHtr$inside_temp ~ tempsInsGlzHtr$outside_temp)
+abline(lm.TInsGlzHtr,col="red")
+
+
+##
 x<-tempsInsGlz$outside_temp
 y<-tempsInsGlz$inside_temp
 nlmod <- nls(y ~  A / ( 1 + exp(C * x)), start=list(A=21, C=1))
@@ -47,5 +56,5 @@ lines(c(-100,100),c(0,0), lty=3, col="blue")
 text(limits[1]+dX, 0+0.5, "Fucking freezing!", pos=4, col="blue")
 arrows(limits[1]+0.5, 0, x1=limits[1]+0.5, y1=limits[1], col="blue",lty=3)
 arrows(limits[2]-0.5, 0, x1=limits[2]-0.5, y1=limits[1], col="blue",lty=3)
-legend(8, 8, c("insulated & double glazed","insulated","uninsulated"),fill=c("orange","red","black"),cex=1.0)
+legend(10, 8, c("ins., dbl glz & heat-pump","insulated & double glazed","insulated","uninsulated"),fill=c("red", "orange","blue","black"),cex=1.0)
 dev.off()
