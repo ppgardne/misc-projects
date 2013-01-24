@@ -1,0 +1,13 @@
+A perl script for generating seminar bingo cards, uses pdflatex.
+
+1. Populate "words.txt" with the words and phrases you want to use,
+2. Generate a pdf file containing cards using seminar_bingo.pl
+3. Print the cards
+4. Hand the cards to members of the audience
+5. The first member to get an entire row, column or main-diagonal from
+their card of terms/phrases used by the speaker(s), either verbally or
+on a slide must shout "Bingo!"
+6. The award is a free paper/grant review from each of the other
+participants or other pre-arranged reward
+
+
