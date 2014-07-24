@@ -1,0 +1,19 @@
+circNetworkViz: a circular visualization tool for bipartate networks.  
+
+given some layered (partate) network data - draw a network diagram,
+illustrating the layers as a series of concentric circles.
+
+In order to run on the example data:
+R CMD BATCH --no-save  network.R
+
+#File Formats (tab-delimited):
+file 1 (networkLayers.tsv):      node->layer-mapping              [the ordering in this file determines the node order on the circles]
+file 2 (networkConnections.tsv): node->node-connections (weights) []
+
+
+TODO:
+-add optimisation methods for minimising the total edge lengths by transpositions of nodes and rotation of the layers.
+-add support for more than 2 layers
+-make into a proper R package
+-add visualisation for edge weights
+

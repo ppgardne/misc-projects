@@ -126,3 +126,118 @@ text(x=80,y=barX, label=paste(h6index), col=c("black","black","black","black","b
 dev.off()
 
 
+png(file="NZ_university_rankings-ppt.png", width=880, height=880)
+op<-par(mfrow=c(1,1),las=1, cex = 3) #mai:c(bottom, left, top, right)
+#par(las=2, new=TRUE,cex=2.75)
+#       c(x1, x2, y1, y2)
+plot(tbl$Year, tbl$Auck, type="l",col="cyan",lwd=5, xlab="Year", ylab="QS world ranking", main="NZ university rankings", ylim=rev(c(1,420)), xlim=c(2004,2013), xaxt="n", yaxt="n")
+lines(tbl$Year, tbl$Otago, col="blue",lwd=5)
+lines(tbl$Year, tbl$Cant, col="orange",lwd=5)
+lines(tbl$Year, tbl$Vic, col="green",lwd=5)
+lines(tbl$Year, tbl$Massey, col="black",lwd=5)
+lines(tbl$Year, tbl$Waikato, col="red",lwd=5)
+cols<-c("cyan","blue","orange","green","black","red","seagreen")
+t2<-c(0,0,0,0,0)
+text(2013.4,tbl[1,2:6]+7, labels = paste(colnames(tbl[,2:6]),"-",tbl[tbl$Year==2013,2:6],sep=" "), col=cols, pos=2)
+text(2013.4,380, labels = "Waikato: 401-410", col="red", pos=2)
+text(2013.4,420, labels = "Lincoln: 481-490", col="purple", pos=2)
+axis(1,at=c(2004:2013),labels=c(2004:2013), las=2)
+axis(2,at=c(1,100,200,300,400),labels=c(1,100,200,300,400), las=2)
+cols<-c(
+"cyan",
+"blue",
+"orange",
+"green",
+"black",
+"red"
+)
+dev.off()
+
+
+
+#####EFTS
+#http://www.universitiesnz.ac.nz/nz-university-system
+
+#efts<-read.table(file="NZ_university_EFTS_2011.txt",       row.names=1, header=TRUE, sep="\t")
+efts<-read.table(file="NZ_university_EFTS_2011-cites.txt", row.names=1, header=TRUE, sep="\t")
+
+low<-4
+staffStudRat<-efts$Students.EFTS/efts$Staff.FTE-low
+#staffStudRat<-rev(staffStudRat)
+
+staffStudRatM<-mat.or.vec(length(staffStudRat), length(staffStudRat))
+for (i in seq(1,length(staffStudRat))){
+    staffStudRatM[i,i]<-staffStudRat[i]
+}
+colnames(staffStudRatM)<-rownames(efts)
+rownames(staffStudRatM)<-rownames(efts)
+
+staffM<-mat.or.vec(length(efts$Staff.FTE), length(efts$Staff.FTE))
+for (i in seq(1,length(efts$Staff.FTE))){
+    staffM[i,i]<-efts$Staff.FTE[i]
+}
+colnames(staffM)<-rownames(efts)
+rownames(staffM)<-rownames(efts)
+
+studentsM<-mat.or.vec(length(efts$Students.EFTS), length(efts$Students.EFTS))
+for (i in seq(1,length(efts$Students.EFTS))){
+    studentsM[i,i]<-efts$Students.EFTS[i]
+}
+colnames(studentsM)<-rownames(efts)
+rownames(studentsM)<-rownames(efts)
+
+citesM<-mat.or.vec(length(efts$Citations.2008.2012), length(efts$Citations.2008.2012))
+for (i in seq(1,length(efts$Citations.2008.2012))){
+    citesM[i,i]<-efts$Citations.2008.2012[i]
+}
+colnames(citesM)<-rownames(efts)
+rownames(citesM)<-rownames(efts)
+
+citesPerFacM<-mat.or.vec(length(efts$Citations.2008.2012), length(efts$Citations.2008.2012))
+for (i in seq(1,length(efts$Citations.2008.2012))){
+    citesPerFacM[i,i]<-efts$Citations.2008.2012[i]/efts$Staff.FTE[i]
+}
+colnames(citesPerFacM)<-rownames(efts)
+rownames(citesPerFacM)<-rownames(efts)
+
+
+pdf(file="NZ_student_staff_ratio.pdf", width=20, height=20)
+op<-par(mfrow=c(1,1),las=2, cex = 3.0, bty='n')
+par(fig=c(0.01,0.49,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
+barX<-barplot(staffStudRatM, xlab="Number of students per staff member", horiz='TRUE', main="2011 Student/Staff Ratios",col=c("white","purple",rev(cols)), xaxt="n", yaxt="n")
+axis(1,at=c(low:9-low),labels=c(low:9), las=1)
+text(x=4-low,y=barX, label=paste(rownames(efts)), col=c("black","white","black","white","black","black","white","black"), cex=1, pos=4)
+#
+par(fig=c(0.50,0.99,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
+barX<-barplot(citesPerFacM, xlab="Citation/faculty", horiz='TRUE', main="Citation/faculty 2008-2012",col=c("white","purple",rev(cols)), yaxt="n")
+#
+dev.off()
+
+png(file="NZ_student_staff_ratio-ppt.png", width=1600, height=880)
+op<-par(mfrow=c(1,1),las=2, cex = 1.0, bty='n')
+par(fig=c(0.01,0.49,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
+barX<-barplot(staffStudRatM, xlab="Number of students per staff member", horiz='TRUE', main="2011 Student/Staff Ratios",col=c("white","purple",rev(cols)), xaxt="n", yaxt="n")
+axis(1,at=c(low:9-low),labels=c(low:9), las=1)
+text(x=4-low,y=barX, label=paste(rownames(efts)), col=c("black","white","black","white","black","black","white","black"), cex=1.25, pos=4)
+#
+par(fig=c(0.50,0.99,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
+barX<-barplot(citesPerFacM, xlab="Citation/faculty", horiz='TRUE', main="Citation/faculty 2008-2012",col=c("white","purple",rev(cols)), yaxt="n")
+#
+dev.off()
+
+
+pdf(file="NZ_student_staff_data.pdf", width=35, height=20)
+op<-par(mfrow=c(1,1),las=2, cex = 3.0, bty='n')
+par(fig=c(0.01,0.32,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
+barX<-barplot(staffM, xlab="FTEs", horiz='TRUE', main="2011 FTE Staff",col=c("white","purple",rev(cols)), yaxt="n")
+text(x=4-low,y=barX, label=paste(rownames(efts)), col=c("black","white","black","white","black","black","white","black"), cex=1, pos=4)
+#
+par(fig=c(0.33,0.65,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
+barX<-barplot(studentsM, xlab="FTEs", horiz='TRUE', main="2011 Student EFTS",col=c("white","purple",rev(cols)), yaxt="n")
+#
+par(fig=c(0.66,0.99,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
+barX<-barplot(citesM, xlab="Citations (2008-2012)", horiz='TRUE', main="Citations",col=c("white","purple",rev(cols)), yaxt="n")
+#
+dev.off()
+
+

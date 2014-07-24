@@ -1,0 +1,9 @@
+University	Students.EFTS	Staff.FTE
+AUT	18518	1961
+Lincoln	3843	681
+Waikato	10348	1543
+Massey	19519	2982
+Victoria	16871	1974
+Canterbury	13553	1787
+Otago	21728	3749
+Auckland	32193	4784
