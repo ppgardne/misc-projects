@@ -5,7 +5,98 @@ Bioinformatics Workshop for Early Career Researchers"
 
 http://www.adelaide.edu.au/acad/events/events/events/bioinformatics14
 
+1. Download the 'mystery-seq.fasta' 
+--check how large it is & the C+G content with:
+esl-seqstat -c mystery-seq.fasta
 
+2. Generate a negative control using either:
+esl-shuffle  -d mystery-seq.fasta > mystery-seq-negcontrol.fasta
+OR
+esl-shuffle  -w 1000 mystery-seq.fasta > mystery-seq-negcontrol.fasta
+
+3. run prodigal on both:
+prodigal -f gff -i mystery-seq.fasta -a mystery-seq-prodigal.fasta            > mystery-seq-prodigal.gff
+prodigal -f gff -i mystery-seq-negcontrol.fasta  > mystery-seq-negcontrol-prodigal.gff
+
+#count the hits in each:
+wc -l mystery-seq-prodigal.gff mystery-seq-negcontrol-prodigal.gff
+
+4. View the results in Artemis:
+artemis mystery-seq.fasta &
+->File->Read An Entry...
+   select 'mystery-seq-prodigal.gff'
+
+5. Add some context:
+
+#Plan A:
+For few sequences use 'search' on the Pfam website:
+http://pfam.xfam.org/
+
+#Plan B:
+Install and run lots of code: 
+
+#'translate' is part of the 'squid' package: http://selab.janelia.org/software/squid/squid.tar.gz 
+
+translate -q mystery-seq.fasta > annotations/mystery-seq-biosquid-translate.fasta
+
+#install the latest version of HMMER: http://hmmer.janelia.org/
+
+#Download the latest set of Pfam HMMs (~1.2 GB in Pfam 27.0):
+ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz
+
+hmmpress Pfam-A.hmm  ##speeds up file I/O
+
+hmmsearch --cut_ga --domtblout mystery-seq-biosquid-translate-pfam27.domtblout Pfam-A.hmm annotations/mystery-seq-biosquid-translate.fasta > annotations/mystery-seq-biosquid-translate-pfam27.hmmsearch
+
+(Run your negative control too...)
+
+##AND WAIT FOR AGES....
+
+#Then run this monstrous one-liner to convert the domtblout file to gff:
+cat mystery-seq-biosquid-translate-pfam27.domtblout | perl -lane 'if(/nt\s+(\d+)\.\.(\d+)/){($f,$t)=($1,$2); if($f<$t){$str="+"; $fDNA=$f+$F[17]*3-3; $tDNA=$f+$F[18]*3-3;}else{$str="-"; ($fDNA,$tDNA)=($f-3*$F[18]+1,$f-3*$F[17]+3); }  print "mystery-seq\thmmsearch\tpolypeptide_domain\t$fDNA\t$tDNA\t$F[7]\t$str\t.\tE-value=$F[6];ID=$F[3];ACC=$F[4];hmm-st=$F[15];hmm-en=$F[16];"; }' | sort -k4n > mystery-seq-pfam27.gff
+
+
+
+6. Annotate the ncRNAs 
+
+#Plan A:
+For few sequences use 'search' on the Pfam website:
+http://rfam.xfam.org/
+
+#Plan B:
+Install and run lots of code: 
+
+#install the latest version of INFERNAL: http://infernal.janelia.org/
+
+#Download the latest set of Rfam CMs (~200 MB in Rfam 12.0):
+ftp://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/Rfam.cm.gz
+cmpress Rfam.cm
+
+cmsearch --rfam --cut_ga --tblout  mystery-seq-rfam12.domtblout Rfam.cm mystery-seq.fasta
+
+#BONUS:
+#Include the transcription terminators (annotated for you -- webserver under construction) 
+Download 'mystery-seq-rnie.gff'
+
+In Artemis:
+->File->Read An Entry...
+   select 'mystery-seq-rnie.gff'
+
+
+7. Expression data!
+Download:
+'mystery-seq-RNA_5prime.plot' and 'mystery-seq-peptides.gff'
+
+In Artemis:
+->Graph->Add User Plot
+AND 
+->File->Read An Entry...
+   select 'mystery-seq-peptides.gff'
+
+
+8. EXERCISES:
+-Find multiple consistent annotations  
+-Find annotations that are inconsistent
 
 
 
