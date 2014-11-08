@@ -72,7 +72,9 @@ Install and run lots of code:
 ftp://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/Rfam.cm.gz
 cmpress Rfam.cm
 
-cmsearch --rfam --cut_ga --tblout  mystery-seq-rfam12.domtblout Rfam.cm mystery-seq.fasta
+cmsearch --rfam --cut_ga --tblout  mystery-seq-rfam12.tblout Rfam.cm mystery-seq.fasta > mystery-seq-rfam12.cmsearch
+
+(write a one-liner to convert the tblout file to GFF)
 
 #BONUS:
 #Include the transcription terminators (annotated for you -- webserver under construction) 
@@ -95,10 +97,11 @@ AND
 
 
 8. EXERCISES:
+Browse your annotations.
 -Find multiple consistent annotations  
 -Find annotations that are inconsistent
 
-
+How do these compare with the annotations in EMBL/Genbank/DDBJ (mystery-seq-embl-annotations.gff)?
 
 
 
