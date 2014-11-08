@@ -14,7 +14,7 @@ esl-shuffle  -d mystery-seq.fasta > mystery-seq-negcontrol.fasta
 OR
 esl-shuffle  -w 1000 mystery-seq.fasta > mystery-seq-negcontrol.fasta
 
-3. run prodigal on both:
+3. run prodigal on both (can be installed/webserved from http://prodigal.ornl.gov/):
 prodigal -f gff -i mystery-seq.fasta -a mystery-seq-prodigal.fasta            > mystery-seq-prodigal.gff
 prodigal -f gff -i mystery-seq-negcontrol.fasta  > mystery-seq-negcontrol-prodigal.gff
 
