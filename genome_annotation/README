@@ -76,6 +76,9 @@ cmsearch --rfam --cut_ga --tblout  mystery-seq-rfam12.tblout Rfam.cm mystery-seq
 
 (write a one-liner to convert the tblout file to GFF)
 
+#OK, here's a rough one. Any errors are deliberate: 
+grep -v ^'#' mystery-seq-rfam12.tblout | perl -lane 'if($F[7]>$F[8]){($F[7],$F[8])=($F[8],$F[7])} print "$F[0]\tcmsearch\tncRNA\t$F[7]\t$F[8]\t$F[14]\t$F[9]\t.\tE-value=$F[15];ID=$F[2];ACC=$F[3];cm-st=6;cm-en=269;"' | sort -k4n > mystery-seq-rfam12.gff
+
 #BONUS:
 #Include the transcription terminators (annotated for you -- webserver under construction) 
 Download 'mystery-seq-rnie.gff'
