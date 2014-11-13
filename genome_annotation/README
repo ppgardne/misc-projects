@@ -106,5 +106,12 @@ Browse your annotations.
 
 How do these compare with the annotations in EMBL/Genbank/DDBJ (mystery-seq-embl-annotations.gff)?
 
+NOTE: 
+The above data is derived from:
 
+Schrader JM, Zhou B, Li GW, Lasker K, Childers WS, Williams B, Long T, Crosson S, McAdams HH, Weissman JS, Shapiro L. (2014)
+The coding and noncoding architecture of the Caulobacter crescentus genome.
+PLoS Genet. 10(7):e1004463. 
+
+The peptide data was kindly provided by Jared Schrader. 
 
