@@ -43,6 +43,17 @@
 #Lincoln H-index    = 75
 #Cambridge H-index  = 458
 
+#Scopus Sep 2015:
+#Auckland H-index   = 236
+#Otago H-index      = 203
+#Canterbury H-index = 155
+#Victoria H-index   = 136
+#Massey H-index     = 153
+#Waikato H-index    = 121
+#Lincoln H-index    = 93
+#AUT  H-index       = 74
+#Cambridge H-index  = 
+
 #Scopus Sep 2007-2013:
 #Auckland H6-index   = 112
 #Otago H6-index      = 100
@@ -55,13 +66,7 @@
 tbl<-read.table(file="NZ_university_rankings.txt", header=TRUE, sep="\t")
 
 hindex<-c(
-    196,
-    203,
-    128,
-    111,
-    128,
-    96,
-    75
+236,203,155,136,153,121,93,74
     )
 hindex<-rev(hindex)
 hindexM<-mat.or.vec(length(hindex), length(hindex))
@@ -87,42 +92,45 @@ for (i in seq(1,length(h6index))){
 }
 
 
-pdf(file="NZ_university_rankings.pdf", width=30, height=20)
+pdf(file="NZ_university_rankings.pdf", width=25, height=20)
 op<-par(mfrow=c(1,1),las=1, cex = 3.0, bty='n')
-par(fig=c(0.01,0.66,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
+par(fig=c(0.01,0.75,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
 #       c(x1, x2, y1, y2)
-plot(tbl$Year, tbl$Auck, type="l",col="cyan",lwd=5, xlab="Year", ylab="QS world ranking", main="NZ university rankings", ylim=rev(c(1,420)), xlim=c(2004,2013), xaxt="n", yaxt="n")
+plot(tbl$Year, tbl$Auck, type="l",col="cyan",lwd=5, xlab="Year", ylab="QS world ranking", main="NZ university rankings", ylim=rev(c(1,530)), xlim=c(2004,2015), xaxt="n", yaxt="n")
 lines(tbl$Year, tbl$Otago, col="blue",lwd=5)
 lines(tbl$Year, tbl$Cant, col="orange",lwd=5)
 lines(tbl$Year, tbl$Vic, col="green",lwd=5)
 lines(tbl$Year, tbl$Massey, col="black",lwd=5)
 lines(tbl$Year, tbl$Waikato, col="red",lwd=5)
-cols<-c("cyan","blue","orange","green","black","red","seagreen")
+lines(tbl$Year, tbl$Lincoln, col="darkgreen",lwd=5)
+lines(tbl$Year, tbl$AUT, col="darkred",lwd=5)
+cols<-c("cyan","blue","orange","green","black","red","darkgreen", "darkred", "seagreen")
 
-t2<-c(0,0,0,0,0)
-text(2013.4,tbl[1,2:6]+7, labels = paste(colnames(tbl[,2:6]),"-",tbl[tbl$Year==2013,2:6],sep=" "), col=cols, pos=2)
+delta<-c(-15,5,-5,10,-15,5,5,-15)
+text(2015.4,tbl[1,c(2:7,9,10)]+7+delta, labels = paste(colnames(tbl[,c(2:7,9,10)]),"-",tbl[tbl$Year==2015,c(2:7,9,10)],sep=" "), col=cols, pos=2)
 
-text(2013.4,405, labels = "Waikato: 401-410", col="red", pos=2)
-text(2013.4,420, labels = "Lincoln: 481-490", col="purple", pos=2)
+#text(2015.4,405, labels = "Waikato: 401-410", col="red", pos=2)
+#text(2015.4,420, labels = "Lincoln: 481-490", col="purple", pos=2)
+#text(2015.4,420, labels = "AUT: 481-490", col="darkred", pos=2)
 
-axis(1,at=c(2004:2013),labels=c(2004:2013), las=2)
-axis(2,at=c(1,100,200,300,400),labels=c(1,100,200,300,400), las=2)
+axis(1,at=c(2004:2015),labels=c(2004:2015), las=2)
+axis(2,at=c(1,100,200,300,400,500),labels=c(1,100,200,300,400,500), las=2)
 cols<-c(
 "cyan",
 "blue",
 "orange",
 "green",
 "black",
-"red"
+"red","darkgreen", "darkred"
 )
 
-par(fig=c(0.66,0.82,0.1,0.9),mai=c(0.5,0.1,0.5,0),las=2, new=TRUE,cex=2.5)
-barX<-barplot(hindexM, xlab="",names.arg=rev(c("Auckland","Otago","Canterbury","Victoria","Massey","Waikato","Lincoln")), col=c("purple",rev(cols)), horiz='TRUE', main="2013 H-index", yaxt="n")
-text(x=150,y=barX, label=paste(hindex), col=c("black","black","black","black","black","white","black"), cex=1)
+par(fig=c(0.75,0.99,0.1,0.9),mai=c(0.5,0.1,0.5,0),las=2, new=TRUE,cex=2.5)
+barX<-barplot(hindexM, xlab="",names.arg=rev(c("Auckland","Otago","Canterbury","Victoria","Massey","Waikato","Lincoln","AUT")), col=c(rev(cols)), horiz='TRUE', main="2015 H-index", yaxt="n")
+text(x=175,y=barX, label=paste(hindex), col=c("black","black","black","black","black","black","white","black"), cex=1)
 
-par(fig=c(0.83,0.99,0.1,0.9),mai=c(0.5,0.1,0.5,0),las=2, new=TRUE,cex=2.5)
-barX<-barplot(h6indexM, xlab="",names.arg=rev(c("Auckland","Otago","Canterbury","Victoria","Massey","Waikato","Lincoln")), col=c("purple",rev(cols)), horiz='TRUE', main="2013 H6-index", yaxt="n")
-text(x=80,y=barX, label=paste(h6index), col=c("black","black","black","black","black","white","black"), cex=1)
+#par(fig=c(0.83,0.99,0.1,0.9),mai=c(0.5,0.1,0.5,0),las=2, new=TRUE,cex=2.5)
+#barX<-barplot(h6indexM, xlab="",names.arg=rev(c("Auckland","Otago","Canterbury","Victoria","Massey","Waikato","Lincoln")), col=c("purple",rev(cols)), horiz='TRUE', main="2013 H6-index", yaxt="n")
+#text(x=80,y=barX, label=paste(h6index), col=c("black","black","black","black","black","white","black"), cex=1)
 dev.off()
 
 
@@ -130,7 +138,7 @@ png(file="NZ_university_rankings-ppt.png", width=880, height=880)
 op<-par(mfrow=c(1,1),las=1, cex = 3) #mai:c(bottom, left, top, right)
 #par(las=2, new=TRUE,cex=2.75)
 #       c(x1, x2, y1, y2)
-plot(tbl$Year, tbl$Auck, type="l",col="cyan",lwd=5, xlab="Year", ylab="QS world ranking", main="NZ university rankings", ylim=rev(c(1,420)), xlim=c(2004,2013), xaxt="n", yaxt="n")
+plot(tbl$Year, tbl$Auck, type="l",col="cyan",lwd=5, xlab="Year", ylab="QS world ranking", main="NZ university rankings", ylim=rev(c(1,420)), xlim=c(2004,2015), xaxt="n", yaxt="n")
 lines(tbl$Year, tbl$Otago, col="blue",lwd=5)
 lines(tbl$Year, tbl$Cant, col="orange",lwd=5)
 lines(tbl$Year, tbl$Vic, col="green",lwd=5)
@@ -138,10 +146,10 @@ lines(tbl$Year, tbl$Massey, col="black",lwd=5)
 lines(tbl$Year, tbl$Waikato, col="red",lwd=5)
 cols<-c("cyan","blue","orange","green","black","red","seagreen")
 t2<-c(0,0,0,0,0)
-text(2013.4,tbl[1,2:6]+7, labels = paste(colnames(tbl[,2:6]),"-",tbl[tbl$Year==2013,2:6],sep=" "), col=cols, pos=2)
-text(2013.4,380, labels = "Waikato: 401-410", col="red", pos=2)
-text(2013.4,420, labels = "Lincoln: 481-490", col="purple", pos=2)
-axis(1,at=c(2004:2013),labels=c(2004:2013), las=2)
+text(2015.4,tbl[1,2:6]+7, labels = paste(colnames(tbl[,2:6]),"-",tbl[tbl$Year==2015,2:6],sep=" "), col=cols, pos=2)
+text(2015.4,380, labels = "Waikato: 401-410", col="red", pos=2)
+text(2015.4,420, labels = "Lincoln: 481-490", col="purple", pos=2)
+axis(1,at=c(2004:2015),labels=c(2004:2015), las=2)
 axis(2,at=c(1,100,200,300,400),labels=c(1,100,200,300,400), las=2)
 cols<-c(
 "cyan",
