@@ -96,7 +96,7 @@ pdf(file="NZ_university_rankings.pdf", width=25, height=20)
 op<-par(mfrow=c(1,1),las=1, cex = 3.0, bty='n')
 par(fig=c(0.01,0.75,0.1,0.9),mai=c(0.5,2.75,0.5,0),las=2, new=TRUE,cex=2.75)
 #       c(x1, x2, y1, y2)
-plot(tbl$Year, tbl$Auck, type="l",col="cyan",lwd=5, xlab="Year", ylab="QS world ranking", main="NZ university rankings", ylim=rev(c(1,530)), xlim=c(2004,2015), xaxt="n", yaxt="n")
+plot(tbl$Year, tbl$Auck, type="l",col="cyan",lwd=5, xlab="Year", ylab="QS world ranking", main="NZ university rankings", ylim=rev(c(1,530)), xlim=c(2004,2016), xaxt="n", yaxt="n")
 lines(tbl$Year, tbl$Otago, col="blue",lwd=5)
 lines(tbl$Year, tbl$Cant, col="orange",lwd=5)
 lines(tbl$Year, tbl$Vic, col="green",lwd=5)
@@ -107,13 +107,13 @@ lines(tbl$Year, tbl$AUT, col="darkred",lwd=5)
 cols<-c("cyan","blue","orange","green","black","red","darkgreen", "darkred", "seagreen")
 
 delta<-c(-15,5,-5,10,-15,5,5,-15)
-text(2015.4,tbl[1,c(2:7,9,10)]+7+delta, labels = paste(colnames(tbl[,c(2:7,9,10)]),"-",tbl[tbl$Year==2015,c(2:7,9,10)],sep=" "), col=cols, pos=2)
+text(2016.4,tbl[1,c(2:7,9,10)]+7+delta, labels = paste(colnames(tbl[,c(2:7,9,10)]),"-",tbl[tbl$Year==2016,c(2:7,9,10)],sep=" "), col=cols, pos=2)
 
 #text(2015.4,405, labels = "Waikato: 401-410", col="red", pos=2)
 #text(2015.4,420, labels = "Lincoln: 481-490", col="purple", pos=2)
 #text(2015.4,420, labels = "AUT: 481-490", col="darkred", pos=2)
 
-axis(1,at=c(2004:2015),labels=c(2004:2015), las=2)
+axis(1,at=c(2004:2016),labels=c(2004:2016), las=2)
 axis(2,at=c(1,100,200,300,400,500),labels=c(1,100,200,300,400,500), las=2)
 cols<-c(
 "cyan",
