@@ -1,0 +1,11 @@
+#mischief script for Mac users.  
+
+
+#add to crontab (runs at 10:07 & 15:07 weekdays):
+#7    10,15   *   *   1-5   $HOME/.mischief.sh
+
+#change volume to max:
+osascript -e "set Volume 10"
+
+#speak message:
+say -v "Princess" "Time for tea, Amy!"
