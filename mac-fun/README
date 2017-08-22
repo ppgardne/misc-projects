@@ -11,7 +11,13 @@ vi $HOME/.mischief.sh
 osascript -e "set Volume 10"
 
 #speak a message:
-say -v "Princess" "Time for tea!"
+say -v "Princess" "Time for tea!" 
+
+osascript -e "set Volume 5"
+
+#Rickroll
+open https://www.youtube.com/watch?v=dQw4w9WgXcQ
+
 ######################################################################
 
 
