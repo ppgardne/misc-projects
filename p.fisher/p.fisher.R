@@ -59,7 +59,7 @@ for(a in alternative){
 for(a in alternative){            
       for(l in tf){	    
       	    for(v in tf){	    
-
+                #Welch's test:
 	    	  tt<-t.test(x, y, alternative = a, paired=l, var.equal=v)
             	  #cat("t.test(alternative=", a ,", paired=", l, ")\t", tt$statistic, "\t", tt$p.value, "\n")
             	  p_values[i] <- tt$p.value
