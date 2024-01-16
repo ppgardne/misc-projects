@@ -63,11 +63,23 @@
 #Waikato H6-index    = 45
 #Lincoln H6-index    = 40
 
+
+#Scopus Sep 2016-2023:
+#Auckland H6-index   = 250
+#Otago H6-index      = 193
+#Canterbury H6-index = 129
+#Victoria H6-index   = 126
+#Massey H6-index     = 119
+#Waikato H6-index    = 108
+#Lincoln H6-index    =  87
+#AUT                 = 140
+
 tbl<-read.table(file="NZ_university_rankings.txt", header=TRUE, sep="\t")
 
 hindex<-c(
-236,203,155,153,136,121,93,74
+	250,193,129,126,119,108,87,140
     )
+#236,203,155,153,136,121,93,74
 hindex<-rev(hindex)
 hindexM<-mat.or.vec(length(hindex), length(hindex))
 for (i in seq(1,length(hindex))){
@@ -111,7 +123,7 @@ axis(1,at=c(2004:2022),labels=c(2004:2022), las=2)
 axis(2,at=c(1,100,200,300,400,500),labels=c(1,100,200,300,400,500), las=2)
 par(fig=c(0.75,0.99,0.1,0.9),mai=c(0.5,0.1,0.5,0),las=2, new=TRUE,cex=2.5)
 unis<-c("Auckland","Otago","Canterbury","Massey","Victoria","Waikato","Lincoln","AUT")
-barX<-barplot(hindexM, xlab="",names.arg=rev(unis), col=c(rev(cols)), horiz='TRUE', main="2015 H-index", yaxt="n")
+barX<-barplot(hindexM, xlab="",names.arg=rev(unis), col=c(rev(cols)), horiz='TRUE', main="2016-2023 H6-index", yaxt="n")
 text(x=5,y=barX, label=rev(unis), col=c("white","white","black","black","white","black","white","black"), cex=1, pos=4)
 text(x=195,y=barX, label=paste(hindex), col=c("black","black","black","black","black","black","white","black"), cex=1, pos=2)
 dev.off()
